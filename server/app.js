@@ -1,22 +1,12 @@
 const express = require("express");
 const app = express();
+require("./db");
 
-const initConnection = require("./db");
-initConnection(function () {
-	launchServer();
+const port = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(require("./routes/user"));
+
+app.listen(port, () => {
+	console.log(`Up on port ${port}`);
 });
-
-const launchServer = () => {
-	// Config
-	const PORT = process.env.PORT || 3000;
-
-	// Middleware
-	app.use(express.json());
-
-	// Routes
-	app.use("/api/user", require("./routes/user"));
-
-	app.listen(PORT, () => {
-		console.log(`Up on port ${PORT}`);
-	});
-};
