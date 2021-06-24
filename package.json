@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node server/app",
-		"dev": "nodemon server/app",
+		"dev": "nodemon server/app --ignore client/",
 		"client": "cd client && npm run serve"
 	},
 	"keywords": [],
