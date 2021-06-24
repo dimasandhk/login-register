@@ -29,6 +29,16 @@ const UserSchema = new mongoose.Schema({
 	}
 });
 
+UserSchema.statics.loginAuth = async (email, password) => {
+	const user = await User.findOne({ email });
+	if (!user) throw new Error({ error: "Email or password doesn't match" });
+
+	const isMatch = await bcrypt.compare(password, user.password);
+	if (!isMatch) throw new Error({ error: "Email or password doesn't match" });
+
+	return user;
+};
+
 UserSchema.pre("save", async function (next) {
 	const user = this;
 	if (user.isModified("password")) {
