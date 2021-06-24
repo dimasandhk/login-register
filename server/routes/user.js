@@ -32,6 +32,19 @@ router.post("/login", async (req, res) => {
 	}
 });
 
+router.post("/logout", auth, async (req, res) => {
+	try {
+		req.user.tokens = req.user.tokens.filter(({ token }) => {
+			return token !== req.token;
+		});
+
+		await req.user.save();
+		res.send({ message: "Logout Success" });
+	} catch (err) {
+		res.status(500).send(err);
+	}
+});
+
 router.get("/me", auth, (req, res) => {
 	res.send(req.user);
 });
