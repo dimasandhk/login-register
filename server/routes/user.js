@@ -19,7 +19,8 @@ router.post("/login", async (req, res) => {
 
 	try {
 		const user = await User.loginAuth(email, password);
-		res.send(user);
+		const token = await user.generateToken();
+		res.send({ user, token });
 	} catch (err) {
 		if (_.isEmpty(err))
 			return res.status(500).send({
